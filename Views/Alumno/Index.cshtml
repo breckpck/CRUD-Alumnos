@@ -1,0 +1,84 @@
+﻿@model IEnumerable<CRUD_Alumnos.Models.AlumnoCE>
+
+@{
+    ViewBag.Title = "Lista de Alumnos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Lista de Alumnos</h2>
+
+<p>
+    @Html.ActionLink("Crear Nuevo", "Agregar")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Nombre Completo
+        </th>
+        <th>
+            Edad
+        </th>
+        <th>
+            Sexo
+        </th>
+        <th>
+            Ciudad
+        </th>
+        <th>
+            Fecha Alta
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.NombreCompleto)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Edad)
+            </td>
+            <td>
+                @{
+                    if (item.Sexo == "M")
+                    {
+                        <span>Masculino</span>
+                    }
+                    else
+                    {
+                        <span>Femenino</span>
+                    }
+                }
+                @* @Html.DisplayFor(modelItem => item.Sexo)*@
+            </td>
+            <td>
+                 @*@CRUD_Alumnos.Controllers.AlumnoController.NombreCiudad( item.IdCiudad)*@
+                @item.NombreCiudad
+                 
+            </td>
+            <td>
+                @item.FechaRegistro.ToShortDateString()
+
+            </td>
+            <td>
+                @Html.ActionLink("Editar", "Editar", new { id = item.Id }) |
+                @Html.ActionLink("Detalles", "Detalles", new { id = item.Id }) |
+                @Html.ActionLink("Eliminar", "EliminarAlumno", new { id = item.Id }, new { @class = "aElimina" })
+            </td>
+        </tr>
+    }
+
+</table>
+
+@section scripts{
+    <script>
+        $(".aElimina").click(function (event) {
+            if (!confirm('Esta seguro que desea eliminar???')) {
+                event.preventDefault();
+            }
+        });
+
+    </script>
+}
